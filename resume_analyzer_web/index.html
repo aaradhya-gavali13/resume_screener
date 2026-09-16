@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NEXUS RESUME AI // Futuristic Quantum Resume Analyzer</title>
+  
+  <!-- Modern Meta & Favicon -->
+  <meta name="description" content="State-of-the-art AI Quantum Resume Analyzer. In-browser document parsing, role matching telemetry, and skill-gap intelligence.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2300f0ff'><polygon points='12 2 2 7 12 12 22 7 12 2'/><polyline points='2 17 12 22 22 17'/><polyline points='2 12 12 17 22 12'/></svg>">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="styles.css">
+
+  <!-- PDF.js for in-browser client-side PDF extraction -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script>
+    if (window.pdfjsLib) {
+      window.pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    }
+  </script>
+
+  <!-- Mammoth.js for in-browser client-side DOCX extraction -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+</head>
+<body>
+  <!-- Ambient Grid Background -->
+  <div class="cyber-grid-overlay"></div>
+
+  <div class="nexus-container">
+    <!-- =======================================================
+         TOP HUD BAR
+         ======================================================= -->
+    <header class="nexus-hud-header">
+      <div class="brand-wrapper">
+        <div class="brand-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+            <polyline points="2 17 12 22 22 17"></polyline>
+            <polyline points="2 12 12 17 22 12"></polyline>
+          </svg>
+        </div>
+        <div>
+          <div class="brand-title">
+            NEXUS RESUME AI
+            <span class="brand-version">v2.5 QUANTUM</span>
+          </div>
+          <div class="brand-subtitle">Automated Skill Extraction & Role Telemetry Engine</div>
+        </div>
+      </div>
+
+      <div class="hud-telemetry-controls">
+        <button class="hud-btn" id="soundToggleBtn" title="Toggle Futuristic Audio Synthesizer">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+            <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+          </svg>
+          <span id="soundStatusText">AUDIO: ON</span>
+        </button>
+
+        <button class="hud-btn" id="backendConfigBtn" title="Configure Cloud Backend (Render)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"></path>
+          </svg>
+          <span id="backendStatusLabel">API: RENDER</span>
+        </button>
+
+        <button class="hud-btn" id="printDossierBtn" title="Export / Print Cyber Dossier">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="6 9 6 2 18 2 18 9"></polyline>
+            <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+            <rect x="6" y="14" width="12" height="8"></rect>
+          </svg>
+          <span>EXPORT DOSSIER</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- =======================================================
+         SCANNER STATION / UPLOAD DECK
+         ======================================================= -->
+    <section class="scanner-deck">
+      <!-- Main Dropzone with Laser Scanner -->
+      <div class="dropzone-container" id="dropzone">
+        <div class="scanner-laser"></div>
+        <input type="file" id="fileInput" accept=".pdf,.docx,.txt" style="display: none;">
+
+        <div class="scanner-icon-portal">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="17 8 12 3 7 8"></polyline>
+            <line x1="12" y1="3" x2="12" y2="15"></line>
+          </svg>
+        </div>
+
+        <h2 class="dropzone-heading">DRAG & DROP RESUME ARCHIVE</h2>
+        <p class="dropzone-subtext">Initialize quantum biometric parse for skill signatures, degree eligibility, and role compatibility matrix.</p>
+
+        <div class="format-badges">
+          <span class="format-badge">.PDF</span>
+          <span class="format-badge">.DOCX</span>
+          <span class="format-badge">.TXT</span>
+        </div>
+
+        <div class="dropzone-actions" onclick="event.stopPropagation()">
+          <button class="btn-cyber-primary" onclick="document.getElementById('fileInput').click()">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M12 5v14M5 12h14"></path>
+            </svg>
+            SELECT FILE
+          </button>
+
+          <button class="btn-cyber-secondary" id="pasteResumeBtn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="16" y1="13" x2="8" y2="13"></line>
+              <line x1="16" y1="17" x2="8" y2="17"></line>
+              <polyline points="10 9 9 9 8 9"></polyline>
+            </svg>
+            PASTE TEXT
+          </button>
+        </div>
+      </div>
+
+      <!-- Quick Assist Deck -->
+      <div class="quick-deck">
+        <!-- System Instructions Card -->
+        <div class="cyber-card">
+          <div class="cyber-card-header">
+            <div class="cyber-card-title">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--cyan-neon)" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="16" x2="12" y2="12"></line>
+                <line x1="12" y1="8" x2="12.01" y2="8"></line>
+              </svg>
+              HOW IT WORKS
+            </div>
+            <span class="tag-badge">READY</span>
+          </div>
+          <p style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 14px;">
+            Upload your resume (.PDF, .DOCX, .TXT) or paste text directly. The quantum engine detects your degree and technical skills, then computes compatibility across 14 industry tech roles.
+          </p>
+          <div style="display: flex; gap: 8px;">
+            <button class="btn-cyber-primary" onclick="document.getElementById('fileInput').click()" style="flex: 1; justify-content: center; font-size: 0.85rem; padding: 9px 12px;">
+              UPLOAD RESUME
+            </button>
+            <button class="btn-cyber-secondary" onclick="document.getElementById('pasteResumeBtn').click()" style="flex: 1; justify-content: center; font-size: 0.85rem; padding: 9px 12px;">
+              PASTE TEXT
+            </button>
+          </div>
+        </div>
+
+        <!-- Engine Specifications Card -->
+        <div class="cyber-card">
+          <div class="cyber-card-header">
+            <div class="cyber-card-title">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--violet-neon)" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="16" x2="12" y2="12"></line>
+                <line x1="12" y1="8" x2="12.01" y2="8"></line>
+              </svg>
+              ENGINE SPECIFICATIONS
+            </div>
+          </div>
+          <div class="engine-specs-list">
+            <div class="spec-item">
+              <span>ACTIVE JOB ROLES</span>
+              <span class="spec-val">14 ROLES</span>
+            </div>
+            <div class="spec-item">
+              <span>SKILL RECOGNITION</span>
+              <span class="spec-val">REGEX BOUNDARY</span>
+            </div>
+            <div class="spec-item">
+              <span>EDUCATION WEIGHT</span>
+              <span class="spec-val">+5 PTS CALIBRATED</span>
+            </div>
+            <div class="spec-item">
+              <span>PRIVACY PROTOCOL</span>
+              <span class="spec-val" style="color: var(--emerald-neon);">100% IN-BROWSER</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =======================================================
+         ANALYSIS RESULTS DASHBOARD
+         ======================================================= -->
+    <section class="analysis-results-section" id="resultsSection">
+      <!-- Candidate Telemetry Bar -->
+      <div class="telemetry-summary-bar">
+        <div class="telemetry-stat-card">
+          <div class="stat-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+              <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
+            </svg>
+          </div>
+          <div class="stat-info">
+            <div class="stat-label">QUALIFIED DEGREE</div>
+            <div class="stat-value" id="telemetryDegree">--</div>
+          </div>
+        </div>
+
+        <div class="telemetry-stat-card">
+          <div class="stat-icon" style="background: rgba(168, 85, 247, 0.1); color: var(--violet-neon);">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="16 18 22 12 16 6"></polyline>
+              <polyline points="8 6 2 12 8 18"></polyline>
+            </svg>
+          </div>
+          <div class="stat-info">
+            <div class="stat-label">IDENTIFIED SKILLS</div>
+            <div class="stat-value" id="telemetrySkillsCount">--</div>
+          </div>
+        </div>
+
+        <div class="telemetry-stat-card">
+          <div class="stat-icon" style="background: rgba(16, 185, 129, 0.1); color: var(--emerald-neon);">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+            </svg>
+          </div>
+          <div class="stat-info">
+            <div class="stat-label">TOP TARGET ROLE</div>
+            <div class="stat-value" id="telemetryTopRole">--</div>
+          </div>
+        </div>
+
+        <div class="telemetry-stat-card">
+          <div class="stat-icon" style="background: rgba(245, 158, 11, 0.1); color: var(--amber-neon);">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 12 14 14"></polyline>
+            </svg>
+          </div>
+          <div class="stat-info">
+            <div class="stat-label">MAX COMPATIBILITY</div>
+            <div class="stat-value" id="telemetryReadiness">--</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Dashboard Columns -->
+      <div class="dashboard-grid">
+        <!-- Left: Top 5 Role Matches -->
+        <div>
+          <div class="section-headline">
+            <h2 class="section-title">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--cyan-neon)" stroke-width="2">
+                <line x1="18" y1="20" x2="18" y2="10"></line>
+                <line x1="12" y1="20" x2="12" y2="4"></line>
+                <line x1="6" y1="20" x2="6" y2="14"></line>
+              </svg>
+              PRIMARY CAREER MATCHES
+            </h2>
+            <span class="section-title-tag">TOP 5 RANKED</span>
+          </div>
+
+          <div class="top-matches-stack" id="topMatchesList">
+            <!-- Dynamically injected -->
+          </div>
+        </div>
+
+        <!-- Right: Candidate Intel & Role Matrix -->
+        <div class="intel-column">
+          <!-- Detected Education Programs -->
+          <div class="cyber-card">
+            <div class="cyber-card-header">
+              <div class="cyber-card-title">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--cyan-neon)" stroke-width="2">
+                  <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                  <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                </svg>
+                DETECTED DEGREES
+              </div>
+            </div>
+            <div class="candidate-programs-card" id="candidatePrograms">
+              <!-- Dynamically injected -->
+            </div>
+          </div>
+
+          <!-- All Extracted Skills Cloud -->
+          <div class="cyber-card">
+            <div class="cyber-card-header">
+              <div class="cyber-card-title">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--emerald-neon)" stroke-width="2">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+                AUTHENTICATED CANDIDATE SKILLS
+              </div>
+            </div>
+            <div class="chips-cloud candidate-skills-palette" id="candidateSkillsCloud">
+              <!-- Dynamically injected -->
+            </div>
+          </div>
+
+          <!-- Complete 14-Role Matrix -->
+          <div class="cyber-card">
+            <div class="cyber-card-header">
+              <div class="cyber-card-title">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--violet-neon)" stroke-width="2">
+                  <rect x="3" y="3" width="7" height="7"></rect>
+                  <rect x="14" y="3" width="7" height="7"></rect>
+                  <rect x="14" y="14" width="7" height="7"></rect>
+                  <rect x="3" y="14" width="7" height="7"></rect>
+                </svg>
+                ALL 14 ROLES MATRIX
+              </div>
+            </div>
+            <div class="roles-matrix-card" id="allRolesMatrix">
+              <!-- Dynamically injected -->
+            </div>
+          </div>
+
+          <!-- Actions -->
+          <div style="display: flex; gap: 12px;">
+            <button class="btn-cyber-secondary" id="resetBtn" style="flex: 1; justify-content: center;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="1 4 1 10 7 10"></polyline>
+                <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
+              </svg>
+              ANALYZE ANOTHER RESUME
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- =======================================================
+       PASTE RESUME MODAL
+       ======================================================= -->
+  <div class="nexus-modal" id="pasteModal">
+    <div class="modal-glass-body">
+      <div class="modal-header">
+        <div class="modal-title">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--cyan-neon)" stroke-width="2">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+            <polyline points="14 2 14 8 20 8"></polyline>
+          </svg>
+          MANUAL RESUME INPUT STREAM
+        </div>
+        <button class="modal-close-btn" id="closeModalBtn">&times;</button>
+      </div>
+
+      <textarea class="resume-textarea" id="pastedResumeText" placeholder="Paste full resume text or portfolio summary here... (Degree, skills, project experience, etc.)"></textarea>
+
+      <div class="modal-actions">
+        <button class="hud-btn" id="cancelModalBtn">CANCEL</button>
+        <button class="btn-cyber-primary" id="analyzePastedBtn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+          </svg>
+          INITIALIZE ANALYSIS
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =======================================================
+       CLOUD BACKEND (RENDER) CONFIG MODAL
+       ======================================================= -->
+  <div class="nexus-modal" id="backendModal">
+    <div class="modal-glass-body">
+      <div class="modal-header">
+        <div class="modal-title">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--cyan-neon)" stroke-width="2">
+            <path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"></path>
+          </svg>
+          RENDER CLOUD BACKEND CONNECTION
+        </div>
+        <button class="modal-close-btn" id="closeBackendModalBtn">&times;</button>
+      </div>
+
+      <p style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 16px;">
+        Connect your deployed Render Python API URL below. The frontend will communicate directly with your Render server. If left blank or offline, it automatically runs in high-speed local mode.
+      </p>
+
+      <div style="margin-bottom: 20px;">
+        <label style="display: block; font-family: var(--font-mono); font-size: 0.76rem; color: var(--cyan-neon); margin-bottom: 8px; text-transform: uppercase;">
+          Render Web Service URL
+        </label>
+        <input type="text" id="backendUrlInput" placeholder="https://nexus-resume-backend.onrender.com" 
+          style="width: 100%; padding: 12px 16px; background: rgba(5, 7, 17, 0.7); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: var(--radius-md); color: #fff; font-family: var(--font-mono); font-size: 0.9rem; outline: none;">
+      </div>
+
+      <div id="backendTestResult" style="margin-bottom: 18px; font-family: var(--font-mono); font-size: 0.8rem; display: none;"></div>
+
+      <div class="modal-actions">
+        <button class="hud-btn" id="testBackendBtn">TEST CONNECTION</button>
+        <button class="btn-cyber-primary" id="saveBackendBtn">SAVE CONNECTION</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="analyzer.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

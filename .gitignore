@@ -1,0 +1,13 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.idea/
+.vscode/
+catboost_info/
+*.zip
+*.lnk
+node_modules/
+.venv/
+env/
+venv/
