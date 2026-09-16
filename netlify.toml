@@ -1,0 +1,7 @@
+[build]
+  publish = "resume_analyzer_web"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
