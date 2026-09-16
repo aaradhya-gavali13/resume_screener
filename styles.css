@@ -1195,3 +1195,273 @@ body {
     color: #000 !important;
   }
 }
+
+/* =========================================================
+   ANDROID & MOBILE RESPONSIVE OPTIMIZATIONS
+   ========================================================= */
+
+/* Mobile touch enhancements */
+button, .hud-btn, .btn-cyber-primary, .btn-cyber-secondary, .dropzone-container {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+@media (max-width: 768px) {
+  .nexus-container {
+    padding: 14px 12px 60px 12px;
+  }
+
+  .nexus-hud-header {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 16px 14px;
+    gap: 14px;
+    border-radius: var(--radius-md);
+    margin-bottom: 20px;
+  }
+
+  .brand-wrapper {
+    width: 100%;
+    gap: 12px;
+  }
+
+  .brand-icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .brand-icon svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .brand-title {
+    font-size: 1.25rem;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .brand-subtitle {
+    font-size: 0.68rem;
+  }
+
+  .hud-telemetry-controls {
+    width: 100%;
+    display: flex;
+    gap: 8px;
+  }
+
+  .hud-btn {
+    flex: 1;
+    min-height: 44px;
+    justify-content: center;
+    padding: 8px 10px;
+    font-size: 0.78rem;
+  }
+
+  /* Scanner Deck on Mobile */
+  .scanner-deck {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+
+  .dropzone-container {
+    padding: 24px 16px;
+    min-height: auto;
+    border-radius: var(--radius-md);
+  }
+
+  .scanner-icon-portal {
+    width: 64px;
+    height: 64px;
+    margin-bottom: 14px;
+  }
+
+  .scanner-icon-portal svg {
+    width: 28px;
+    height: 28px;
+  }
+
+  .dropzone-heading {
+    font-size: 1.15rem;
+    margin-bottom: 6px;
+  }
+
+  .dropzone-subtext {
+    font-size: 0.82rem;
+    margin-bottom: 16px;
+  }
+
+  .dropzone-actions {
+    width: 100%;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .btn-cyber-primary, .btn-cyber-secondary {
+    width: 100%;
+    min-height: 48px;
+    justify-content: center;
+    font-size: 0.9rem;
+    padding: 12px;
+  }
+
+  /* Telemetry Summary Bar on Mobile */
+  .telemetry-summary-bar {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-bottom: 24px;
+  }
+
+  .telemetry-stat-card {
+    padding: 12px 10px;
+    gap: 10px;
+  }
+
+  .stat-icon {
+    width: 36px;
+    height: 36px;
+  }
+
+  .stat-icon svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .stat-info .stat-label {
+    font-size: 0.64rem;
+  }
+
+  .stat-info .stat-value {
+    font-size: 1.1rem;
+  }
+
+  /* Dashboard Grid */
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .section-headline {
+    margin-bottom: 16px;
+  }
+
+  .section-title {
+    font-size: 1.15rem;
+  }
+
+  /* Job Match Cards on Mobile */
+  .job-match-card {
+    padding: 16px 14px;
+    border-radius: var(--radius-md);
+  }
+
+  .card-top-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+
+  .role-title-group {
+    width: 100%;
+    gap: 10px;
+  }
+
+  .rank-badge {
+    width: 28px;
+    height: 28px;
+    font-size: 0.85rem;
+  }
+
+  .role-name {
+    font-size: 1.1rem;
+  }
+
+  .card-top-row > div:last-child {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    padding-top: 10px;
+  }
+
+  .radial-progress-wrapper {
+    width: 58px;
+    height: 58px;
+  }
+
+  .radial-score-text {
+    font-size: 0.82rem;
+  }
+
+  .card-badges-row {
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+
+  .education-pill {
+    font-size: 0.68rem;
+    padding: 4px 8px;
+    width: 100%;
+  }
+
+  .skill-chip {
+    font-size: 0.7rem;
+    padding: 4px 8px;
+  }
+
+  /* Improvements list on Mobile */
+  .improvements-block {
+    padding: 12px 10px;
+  }
+
+  .improvement-content {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    padding: 8px 10px;
+  }
+
+  .improvement-text {
+    font-size: 0.8rem;
+  }
+
+  .priority-pill {
+    font-size: 0.62rem;
+    padding: 2px 8px;
+  }
+
+  /* Modal on Mobile */
+  .modal-glass-body {
+    padding: 18px 14px;
+    width: 95%;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+
+  .resume-textarea {
+    height: 180px;
+    font-size: 0.82rem;
+    padding: 12px;
+  }
+
+  .modal-actions {
+    flex-direction: column-reverse;
+    gap: 8px;
+  }
+
+  .modal-actions button {
+    width: 100%;
+    min-height: 46px;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 400px) {
+  .telemetry-summary-bar {
+    grid-template-columns: 1fr;
+  }
+}
