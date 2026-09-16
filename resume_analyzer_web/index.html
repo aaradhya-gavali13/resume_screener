@@ -58,13 +58,6 @@
           <span id="soundStatusText">AUDIO: ON</span>
         </button>
 
-        <button class="hud-btn" id="backendConfigBtn" title="Configure Cloud Backend (Render)">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"></path>
-          </svg>
-          <span id="backendStatusLabel">API: RENDER</span>
-        </button>
-
         <button class="hud-btn" id="printDossierBtn" title="Export / Print Cyber Dossier">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <polyline points="6 9 6 2 18 2 18 9"></polyline>
@@ -356,42 +349,6 @@
           </svg>
           INITIALIZE ANALYSIS
         </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- =======================================================
-       CLOUD BACKEND (RENDER) CONFIG MODAL
-       ======================================================= -->
-  <div class="nexus-modal" id="backendModal">
-    <div class="modal-glass-body">
-      <div class="modal-header">
-        <div class="modal-title">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--cyan-neon)" stroke-width="2">
-            <path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"></path>
-          </svg>
-          RENDER CLOUD BACKEND CONNECTION
-        </div>
-        <button class="modal-close-btn" id="closeBackendModalBtn">&times;</button>
-      </div>
-
-      <p style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 16px;">
-        Connect your deployed Render Python API URL below. The frontend will communicate directly with your Render server. If left blank or offline, it automatically runs in high-speed local mode.
-      </p>
-
-      <div style="margin-bottom: 20px;">
-        <label style="display: block; font-family: var(--font-mono); font-size: 0.76rem; color: var(--cyan-neon); margin-bottom: 8px; text-transform: uppercase;">
-          Render Web Service URL
-        </label>
-        <input type="text" id="backendUrlInput" placeholder="https://nexus-resume-backend.onrender.com" 
-          style="width: 100%; padding: 12px 16px; background: rgba(5, 7, 17, 0.7); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: var(--radius-md); color: #fff; font-family: var(--font-mono); font-size: 0.9rem; outline: none;">
-      </div>
-
-      <div id="backendTestResult" style="margin-bottom: 18px; font-family: var(--font-mono); font-size: 0.8rem; display: none;"></div>
-
-      <div class="modal-actions">
-        <button class="hud-btn" id="testBackendBtn">TEST CONNECTION</button>
-        <button class="btn-cyber-primary" id="saveBackendBtn">SAVE CONNECTION</button>
       </div>
     </div>
   </div>

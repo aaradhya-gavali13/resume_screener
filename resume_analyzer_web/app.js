@@ -33,86 +33,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const candidateSkillsCloud = document.getElementById('candidateSkillsCloud');
   const allRolesMatrix = document.getElementById('allRolesMatrix');
 
-  // Backend Configuration Elements
-  const backendConfigBtn = document.getElementById('backendConfigBtn');
-  const backendModal = document.getElementById('backendModal');
-  const closeBackendModalBtn = document.getElementById('closeBackendModalBtn');
-  const backendUrlInput = document.getElementById('backendUrlInput');
-  const testBackendBtn = document.getElementById('testBackendBtn');
-  const saveBackendBtn = document.getElementById('saveBackendBtn');
-  const backendTestResult = document.getElementById('backendTestResult');
-  const backendStatusLabel = document.getElementById('backendStatusLabel');
-
-  let activeBackendUrl = localStorage.getItem('nexus_backend_url') || '';
-  if (backendUrlInput) backendUrlInput.value = activeBackendUrl;
-  updateBackendStatusUI();
-
-  function updateBackendStatusUI() {
-    if (backendStatusLabel) {
-      if (activeBackendUrl) {
-        backendStatusLabel.textContent = 'API: CONNECTED';
-        backendStatusLabel.parentElement.style.borderColor = 'var(--cyan-neon)';
-      } else {
-        backendStatusLabel.textContent = 'API: RENDER (SETUP)';
-        backendStatusLabel.parentElement.style.borderColor = 'var(--border-subtle)';
-      }
-    }
-  }
-
-  if (backendConfigBtn) {
-    backendConfigBtn.addEventListener('click', () => {
-      audio.clickBlip();
-      backendModal.classList.add('active');
-    });
-  }
-
-  if (closeBackendModalBtn) {
-    closeBackendModalBtn.addEventListener('click', () => {
-      audio.clickBlip();
-      backendModal.classList.remove('active');
-    });
-  }
-
-  if (testBackendBtn) {
-    testBackendBtn.addEventListener('click', async () => {
-      const url = backendUrlInput.value.trim().replace(/\/+$/, '');
-      if (!url) {
-        backendTestResult.style.display = 'block';
-        backendTestResult.style.color = 'var(--rose-neon)';
-        backendTestResult.textContent = 'Please enter a Render URL to test.';
-        return;
-      }
-
-      backendTestResult.style.display = 'block';
-      backendTestResult.style.color = 'var(--cyan-neon)';
-      backendTestResult.textContent = 'Pinging Render service... (Free tier may take 30-50s to wake up)';
-
-      try {
-        const res = await fetch(url + '/health', { method: 'GET' });
-        if (res.ok) {
-          const data = await res.json();
-          backendTestResult.style.color = 'var(--emerald-neon)';
-          backendTestResult.textContent = `✓ Connected successfully! Service: ${data.service} (14 roles active)`;
-          audio.successChime();
-        } else {
-          throw new Error(`HTTP ${res.status}`);
-        }
-      } catch (e) {
-        backendTestResult.style.color = 'var(--rose-neon)';
-        backendTestResult.textContent = `✕ Connection failed: ${e.message}. Ensure CORS is enabled and URL is correct.`;
-      }
-    });
-  }
-
-  if (saveBackendBtn) {
-    saveBackendBtn.addEventListener('click', () => {
-      audio.clickBlip();
-      activeBackendUrl = backendUrlInput.value.trim().replace(/\/+$/, '');
-      localStorage.setItem('nexus_backend_url', activeBackendUrl);
-      updateBackendStatusUI();
-      backendModal.classList.remove('active');
-    });
-  }
+  // Persistent Backend URL (silent auto-connection without UI setup popups)
+  const DEFAULT_BACKEND_URL = "https://resume-screener.onrender.com";
+  let activeBackendUrl = localStorage.getItem('nexus_backend_url') || DEFAULT_BACKEND_URL;
 
   // Telemetry Counters
   const telemetryDegree = document.getElementById('telemetryDegree');
